@@ -3,6 +3,9 @@
 #include "vector.h"
 #include "banker.h"
 
+int NRES; 	// number of resource types
+int NPROC;	// number of processes
+
 int main(int argc, char *argv[])
 {
 
@@ -25,8 +28,7 @@ int main(int argc, char *argv[])
   }
 
 
-  int NRES; 	// number of resource types
-  int NPROC;	// number of processes
+  
   fscanf(pFile, "%d", &NRES);
   fscanf(pFile, "%d", &NPROC);
 
