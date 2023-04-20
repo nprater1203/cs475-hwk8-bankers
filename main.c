@@ -39,18 +39,21 @@ int main(int argc, char *argv[])
   fscanf(pFile, "%d", &resource[2]);
 
 
-  //read in the demand matrix. as it's a fixed size we can specify params
-  int demand[5][3];
+  //read in the demand matrix. as it's a fixed size we can malloc with specific params
+  int (*demand)[NPROC] = malloc(sizeof(int[NPROC][NRES]));
 
   for(int i = 0; i< 15; i++){
     int row = i / 3;
     int col = i % 3;
+
+
     fscanf(pFile, "%d", &demand[row][col]);
 
   }
 
   //read in alloc mat
-  int alloc[5][3];
+  //alloc is the same size as the demand array
+  int (*alloc)[NPROC] = malloc(sizeof(int[NPROC][NRES]));
   for(int i = 0; i< 15; i++){
     int row = i / 3;
     int col = i % 3;
