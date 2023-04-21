@@ -4,14 +4,14 @@
 
 // TODO - Define vector and matrix operations
 //copies every element in vec2 to vec1
-cloneVector(int* vec1, int* vec2){
+void cloneVector(int* vec1, int* vec2){
     for(int i = 0; i < NRES; i++){
         vec1[i] = vec2[i];
     }
 }
 
 //returns if 1 if every element in vec1 <= to every element in vec2 else returns 0
-compareVector(int* vec1, int* vec2){
+int compareVector(int* vec1, int* vec2){
     for(int i = 0; i < NRES; i++){
         if(vec1[i] > vec2[i]){
             return 0; 
@@ -21,8 +21,18 @@ compareVector(int* vec1, int* vec2){
 }
 
 //adds elements of vec2 onto elements of vec1
-addVector(int* vec1, int* vec2){
+void addVector(int* vec1, int* vec2){
     for(int i = 0; i < NRES; i++){
         vec1[i] += vec2[i];
+    }
+}
+
+//prints out a given matrix
+void printMatrix(int** matrix){
+    for(int i = 0; i < NPROC; i++){
+        for(int j = 0; j < NRES; j++){
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
     }
 }

@@ -16,11 +16,9 @@ int main(int argc, char *argv[])
     return 0;
   }
 
-  char *filePath = argv[1];
-
   //try to open the file and make sure it exists
-  FILE * pFile;
-  pFile = fopen(filePath,"r");
+  FILE *pFile;
+  pFile = fopen(argv[1],"r");
 
   if(pFile == NULL){
     printf("Given File Path Not Found\n");
@@ -32,35 +30,54 @@ int main(int argc, char *argv[])
   fscanf(pFile, "%d", &NRES);
   fscanf(pFile, "%d", &NPROC);
 
-  int resource[3];
+  int* resources = (int*)malloc(NRES * sizeof(int));
 
-  fscanf(pFile, "%d", &resource[0]);
-  fscanf(pFile, "%d", &resource[1]);
-  fscanf(pFile, "%d", &resource[2]);
+  for(int i = 0; i < NRES; i++){
+    fscanf(pFile, "%d", &resources[i]);
+  }
+
 
 
   //read in the demand matrix. as it's a fixed size we can malloc with specific params
-  int (*demand)[NPROC] = malloc(sizeof(int[NPROC][NRES]));
+  int** demand = malloc(NPROC * sizeof(int*));
+  for(int i = 0; i < NPROC; i++){
+    demand[i] = (int*)malloc(NRES * sizeof(int));
+  }
 
-  for(int i = 0; i< 15; i++){
-    int row = i / 3;
-    int col = i % 3;
-
-
-    fscanf(pFile, "%d", &demand[row][col]);
-
+  for(int i = 0; i < NPROC; i++){
+    for(int j = 0; j < NRES; j++){
+      fscanf(pFile, "%d", &demand[i][j]);
+    }
   }
 
   //read in alloc mat
   //alloc is the same size as the demand array
-  int (*alloc)[NPROC] = malloc(sizeof(int[NPROC][NRES]));
-  for(int i = 0; i< 15; i++){
-    int row = i / 3;
-    int col = i % 3;
-    fscanf(pFile, "%d", &alloc[row][col]);
-
+  int** alloc = malloc(NPROC * sizeof(int*));
+  for(int i = 0; i < NPROC; i++){
+    alloc[i] = (int*)malloc(NRES * sizeof(int));
   }
 
+  for(int i = 0; i < NPROC; i++){
+    for(int j = 0; j < NRES; j++){
+      fscanf(pFile, "%d", &alloc[i][j]);
+    }
+  }
+
+  fclose(pFile);
+
+  printMatrix(demand);
+  printf("\n");
+  printMatrix(alloc);
+
+  free(resources);
+  for(int i = 0; i < NPROC; i++){
+    free(demand[i]);
+  }
+  free(demand);
+  for(int i = 0; i < NPROC; i++){
+    free(alloc[i]);
+  }
+  free(alloc);
 
 
 
