@@ -24,8 +24,6 @@ int main(int argc, char *argv[])
     printf("Given File Path Not Found\n");
     return 0;
   }
-
-
   
   fscanf(pFile, "%d", &NRES);
   fscanf(pFile, "%d", &NPROC);
@@ -35,8 +33,6 @@ int main(int argc, char *argv[])
   for(int i = 0; i < NRES; i++){
     fscanf(pFile, "%d", &resources[i]);
   }
-
-
 
   //read in the demand matrix. as it's a fixed size we can malloc with specific params
   int** demand = malloc(NPROC * sizeof(int*));
@@ -65,10 +61,26 @@ int main(int argc, char *argv[])
 
   fclose(pFile);
 
-  printMatrix(demand);
-  printf("\n");
-  printMatrix(alloc);
+  //initialize and create need matrix 
+  int** need = malloc(NPROC * sizeof(int*));
+  for(int i = 0; i < NPROC; i++){
+    need[i] = (int*)malloc(NRES * sizeof(int));
+  }
+  subMatrix(demand, alloc, need);
+  
+  //subtract max resources by alloced resources to get available resources
+  for(int i = 0; i < NPROC; i++){
+    subVector(resources, alloc[i]);
+  }
 
+  //test
+  printMatrix(need);
+  printf("\n");
+  int safe = isSafe(resources, alloc, need);
+  printf("%d\n", safe);
+
+
+  //free vectors and matrices
   free(resources);
   for(int i = 0; i < NPROC; i++){
     free(demand[i]);
@@ -78,6 +90,10 @@ int main(int argc, char *argv[])
     free(alloc[i]);
   }
   free(alloc);
+  for(int i = 0; i < NPROC; i++){
+    free(need[i]);
+  }
+  free(need);
 
 
 

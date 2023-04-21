@@ -13,17 +13,20 @@ int isSafe(int* available, int** alloc, int** need){
         finish[i] = 0;
     }
     
+    printf("SEQ: ");
     int done = 0;
     while(!done) {
         done = 1;
         for(int i=0; i<NPROC; i++) {
             if(!finish[i] && compareVector(need[i], work)) {
+                printf("T%d ", i);
                 addVector(work, alloc[i]);
                 finish[i] = 1;
                 done = 0;
             }
         }
     }
+    printf("\n");
 
     int safe = 1;
     for(int i=0; i<NPROC; i++) {
@@ -35,4 +38,5 @@ int isSafe(int* available, int** alloc, int** need){
 
     free(work);
     free(finish);
+    return safe; 
 }
