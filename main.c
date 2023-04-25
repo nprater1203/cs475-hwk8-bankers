@@ -67,6 +67,44 @@ int main(int argc, char *argv[])
     need[i] = (int*)malloc(NRES * sizeof(int));
   }
   subMatrix(demand, alloc, need);
+
+  //Sanity check
+  // Add up all the columns in alloc matric and make sure that it doesn't have more than the corresponding resource column
+  for(int i = 0; i < NPROC; i++)
+  {
+    int columnSum = 0;
+    for(int j = 0; j < NRES; j++)
+    {
+      columnSum += alloc[i][j];
+    }
+
+    if(columnSum > resources[i])
+    {
+      printf("Integrity test failed: allocated resources exceed total resources\n");
+      return 0;
+    }
+  } 
+
+  // No element in need 2D array is greater than any element in demand 2D array
+  for(int i = 0; i < NPROC; i++)
+  {
+    for(int j = 0; j < NRES; j++)
+    {
+      for(int k = 0; k < NPROC; k++)
+      {
+        for(int l = 0; l < NRES; l++)
+        {
+          if(need[i][j] > demand[k][l])
+          {
+            printf("Integrity test failed: ...\n");
+            return 0;
+          }
+        }
+      }
+    }
+  }
+
+
   
   //subtract max resources by alloced resources to get available resources
   for(int i = 0; i < NPROC; i++){
@@ -78,6 +116,9 @@ int main(int argc, char *argv[])
   printf("\n");
   int safe = isSafe(resources, alloc, need);
   printf("%d\n", safe);
+
+  
+
 
 
   //free vectors and matrices
