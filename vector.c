@@ -1,3 +1,10 @@
+/*
+	Name: Nicholas P, Mathew Z, Owen RL
+	Course: CS 481 OS
+	Professor: Dr. Chiu
+	Date: 4/28/23
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "vector.h"

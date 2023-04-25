@@ -1,3 +1,10 @@
+/*
+    Name: Nicholas P, Mathew Z, Owen RL
+	  Course: CS 481 OS
+	  Professor: Dr. Chiu
+	  Date: 4/28/23
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "vector.h"
@@ -94,7 +101,8 @@ int main(int argc, char *argv[])
     {
       if(alloc[i][j] > demand[i][j])
       {
-        printf("Integrity test failed: ...\n");
+        printf("Integrity test failed: allocated resources exceed demand for Thread %d\n",i);
+        printf("Need %d instances of resource %d\n", demand[i][j] - alloc[i][j], j);
         sanityCheck = 0; 
         break;
       }

@@ -1,3 +1,9 @@
+/*
+	Name: Nicholas P, Mathew Z, Owen RL
+	Course: CS 481 OS
+	Professor: Dr. Chiu
+	Date: 4/28/23
+*/
 
 // TODO: function prototypes of vector and matrix operations
 extern int NRES; 	// number of resource types
