@@ -70,10 +70,11 @@ int main(int argc, char *argv[])
 
   //Sanity check
   // Add up all the columns in alloc matric and make sure that it doesn't have more than the corresponding resource column
-  for(int i = 0; i < NPROC; i++)
+  int sanityCheck = 1; 
+  for(int i = 0; i < NRES; i++)
   {
     int columnSum = 0;
-    for(int j = 0; j < NRES; j++)
+    for(int j = 0; j < NPROC; j++)
     {
       columnSum += alloc[i][j];
     }
@@ -81,45 +82,35 @@ int main(int argc, char *argv[])
     if(columnSum > resources[i])
     {
       printf("Integrity test failed: allocated resources exceed total resources\n");
-      return 0;
+      sanityCheck = 0;
+      break;
     }
   } 
 
-  // No element in need 2D array is greater than any element in demand 2D array
+  // No element in alloc 2D array is greater than any element in demand 2D array
   for(int i = 0; i < NPROC; i++)
   {
     for(int j = 0; j < NRES; j++)
     {
-      for(int k = 0; k < NPROC; k++)
+      if(alloc[i][j] > demand[i][j])
       {
-        for(int l = 0; l < NRES; l++)
-        {
-          if(need[i][j] > demand[k][l])
-          {
-            printf("Integrity test failed: ...\n");
-            return 0;
-          }
-        }
+        printf("Integrity test failed: ...\n");
+        sanityCheck = 0; 
+        break;
       }
     }
   }
 
 
-  
-  //subtract max resources by alloced resources to get available resources
-  for(int i = 0; i < NPROC; i++){
-    subVector(resources, alloc[i]);
+  //call isSafe if sanity checks are passed
+  if(sanityCheck){
+    //subtract max resources by alloced resources to get available resources
+    for(int i = 0; i < NPROC; i++){
+      subVector(resources, alloc[i]);
+    }
+    isSafe(resources, alloc, need);
   }
-
-  //test
-  printMatrix(need);
-  printf("\n");
-  int safe = isSafe(resources, alloc, need);
-  printf("%d\n", safe);
-
   
-
-
 
   //free vectors and matrices
   free(resources);
