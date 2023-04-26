@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
     int columnSum = 0;
     for(int j = 0; j < NPROC; j++)
     {
-      columnSum += alloc[i][j];
+      columnSum += alloc[j][i];
     }
 
     if(columnSum > resources[i])
